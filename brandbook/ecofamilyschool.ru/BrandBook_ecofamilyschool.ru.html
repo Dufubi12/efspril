@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Book: Eco Family School</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* DROPBOX-INSPIRED DESIGN SYSTEM */
+        :root {
+            --primary: {
+                    {
+                    primary_color
+                }
+            }
+
+            ;
+
+            --secondary: {
+                    {
+                    secondary_color
+                }
+            }
+
+            ;
+
+            --accent: {
+                    {
+                    accent_color
+                }
+            }
+
+            ;
+            --bg: #F7F5F2;
+            /* Warm off-white like Dropbox paper */
+            --surface: #FFFFFF;
+            --text-main: #1E1919;
+            --text-muted: #6B6B6B;
+            --border: #E6E6E6;
+
+            --font-main: 'Inter',
+            system-ui,
+            -apple-system,
+            sans-serif;
+
+            --font-heading: {
+                    {
+                    font_heading
+                }
+            }
+
+            ,
+            'Inter',
+            sans-serif;
+
+            --font-body: {
+                    {
+                    font_body
+                }
+            }
+
+            ,
+            'Inter',
+            sans-serif;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #E5E5E5;
+            /* Editor background */
+            font-family: var(--font-main);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            padding: 20mm;
+            background: var(--bg);
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media print {
+            body {
+                background: none;
+            }
+
+            .page {
+                margin: 0;
+                page-break-after: always;
+                height: 100vh;
+            }
+        }
+
+        /* TYPOGRAPHY */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 500;
+            /* Sharp, modern weight */
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        h1.display {
+            font-size: 80px;
+            line-height: 0.9;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        h2.section-title {
+            font-size: 32px;
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 16px;
+            margin-bottom: 40px;
+            margin-top: 0;
+        }
+
+        p {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 60ch;
+        }
+
+        /* GRID SYSTEM (BENTO) */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card.full-width {
+            grid-column: span 2;
+        }
+
+        /* COVER PAGE */
+        .cover-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-meta {
+            display: flex;
+            gap: 40px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .meta-item label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .meta-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* COLORS PAGE */
+        .color-swatch-large {
+            height: 180px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .color-details h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .color-value {
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--text-muted);
+            background: #F0F0F0;
+            padding: 4px 8px;
+            display: inline-block;
+        }
+
+        /* TYPOGRAPHY PAGE */
+        .type-specimen {
+            font-size: 120px;
+            line-height: 1;
+            margin-bottom: 20px;
+            opacity: 0.1;
+            font-weight: 700;
+        }
+
+        .font-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .font-name {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .font-usage {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        /* TONE OF VOICE */
+        .voice-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            border: 1px solid var(--border);
+        }
+
+        .voice-item {
+            padding: 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 20px;
+            align-items: baseline;
+        }
+
+        .voice-item:last-child {
+            border-bottom: none;
+        }
+
+        .voice-label {
+            width: 150px;
+            font-weight: 600;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* FOOTER */
+        .page-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- COVER PAGE -->
+    <div class="page">
+        <div class="cover-content">
+            <h1 class="display">Eco Family School</h1>
+            <p style="font-size: 24px;">Brand Guidelines 1.0</p>
+
+            <div class="brand-meta">
+                <div class="meta-item">
+                    <label>Generated</label>
+                    <span>January 30, 2026</span>
+                </div>
+                <div class="meta-item">
+                    <label>Tone</label>
+                    <span>Professional & Trustworthy</span>
+                </div>
+                <div class="meta-item">
+                    <label>Primary Color</label>
+                    <span>#32593E</span>
+                </div>
+            </div>
+        </div>
+        <div class="page-footer">
+            <span>ecofamilyschool.ru</span>
+            <span>01</span>
+        </div>
+    </div>
+
+    <!-- TONE OF VOICE -->
+    <div class="page">
+        <h2 class="section-title">Brand Personality</h2>
+
+        <p style="margin-bottom: 40px; font-size: 20px; line-height: 1.4;">
+            These brand guidelines for https://ecofamilyschool.ru/ ensure consistency across all visual and textual communications. Our voice is clear, helpful, and modern.
+        </p>
+
+        <div class="voice-grid">
+            
+            <div class="voice-item">
+                <div class="voice-label">Clear</div>
+                <div class="voice-desc">We communicate complex ideas simply and directly.</div>
+            </div>
+            
+            <div class="voice-item">
+                <div class="voice-label">Helpful</div>
+                <div class="voice-desc">We are empathetic and always ready to assist our users.</div>
+            </div>
+            
+            <div class="voice-item">
+                <div class="voice-label">Modern</div>
+                <div class="voice-desc">We use forward-thinking design and language.</div>
+            </div>
+            
+        </div>
+
+        <div class="page-footer">
+            <span>Core Values</span>
+            <span>02</span>
+        </div>
+    </div>
+
+    <!-- COLOR PALETTE -->
+    <div class="page">
+        <h2 class="section-title">Color Palette</h2>
+
+        <div class="bento-grid">
+            <!-- Primary -->
+            <div class="card full-width">
+                <div class="color-swatch-large"
+                    style="background-color: #32593E !important; border: 1px solid rgba(0,0,0,0.1);"></div>
+                <div class="color-details">
+                    <h3>Primary</h3>
+                    <div class="color-value">#32593E</div>
+                </div>
+            </div>
+
+            <!-- Secondary -->
+            <div class="card">
+                <div class="color-swatch-large"
+                    style="background-color: #04210D !important; border: 1px solid rgba(0,0,0,0.1);">
+                </div>
+                <div class="color-details">
+                    <h3>Secondary</h3>
+                    <div class="color-value">#04210D</div>
+                </div>
+            </div>
+
+            <!-- Accent -->
+            <div class="card">
+                <div class="color-swatch-large"
+                    style="background-color: #A6C0B1 !important; border: 1px solid rgba(0,0,0,0.1);"></div>
+                <div class="color-details">
+                    <h3>Accent</h3>
+                    <div class="color-value">#A6C0B1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <span>Visual Identity</span>
+            <span>03</span>
+        </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="page">
+        <h2 class="section-title">Typography</h2>
+
+        <div class="bento-grid">
+            <div class="card full-width font-card">
+                <div class="font-usage">Headings</div>
+                <div class="font-name" style="font-family: var(--font-heading);">TildaSans</div>
+                <div style="font-family: var(--font-heading); font-size: 14px;">
+                    ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+                    abcdefghijklmnopqrstuvwxyz<br>
+                    0123456789
+                </div>
+                <div class="type-specimen" style="font-family: var(--font-heading);">Aa</div>
+            </div>
+
+            <div class="card full-width font-card">
+                <div class="font-usage">Body Text</div>
+                <div class="font-name" style="font-family: var(--font-body);">CirceRounded</div>
+                <p style="font-family: var(--font-body); margin-top: 10px;">
+                    This is how your body text will look. It should be legible, clean, and comfortable to read for long
+                    periods.
+                    Good typography is invisible; it allows the content to speak without distraction.
+                </p>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <span>Typography</span>
+            <span>04</span>
+        </div>
+    </div>
+
+</body>
+
+</html>

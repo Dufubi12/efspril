@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Teaser: {{ project_name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --secondary: #1E293B;
+            --accent: #F97316;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --text: #334155;
+            --border: #E2E8F0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: var(--surface);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 20mm;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto 1fr auto;
+            gap: 24px;
+            align-content: start;
+        }
+
+        @media print {
+            body {
+                background: none;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                height: 100vh;
+            }
+        }
+
+        /* HEADER */
+        header {
+            grid-column: span 2;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--secondary);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .meta {
+            font-size: 12px;
+            text-align: right;
+            color: #64748B;
+        }
+
+        /* SECTIONS */
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94A3B8;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            height: 1px;
+            background: var(--border);
+            flex: 1;
+        }
+
+        .card {
+            background: #F1F5F9;
+            padding: 20px;
+            border-radius: 12px;
+            height: 100%;
+        }
+
+        .highlight-box {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: 0;
+            color: var(--secondary);
+        }
+
+        h3 {
+            font-size: 16px;
+            margin: 16px 0 8px 0;
+            color: var(--secondary);
+        }
+
+        p,
+        li {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        /* GRID LAYOUTS */
+        .market-section {
+            grid-column: 1 / 2;
+        }
+
+        .financials-section {
+            grid-column: 2 / 3;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        /* CHARTS */
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .metric {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-val {
+            display: block;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 10px;
+            color: #64748B;
+            text-transform: uppercase;
+        }
+
+        /* FOOTER */
+        footer {
+            grid-column: span 2;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            font-size: 12px;
+            color: #94A3B8;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <!-- HERO SECTION -->
+        <header style="border: none; text-align: center; padding-bottom: 40px; border-bottom: 1px solid var(--border);">
+            <div
+                style="background: var(--primary); color: white; padding: 6px 12px; border-radius: 20px; display: inline-block; font-size: 12px; margin-bottom: 16px; font-weight: 600;">
+                Verdict: {{ verdict }}
+            </div>
+            <h1 style="font-size: 48px; margin-bottom: 12px;">{{ project_name }}</h1>
+            <div class="tagline" style="font-size: 20px; color: #64748B; font-weight: 400;">{{ tagline }}</div>
+            <div style="margin-top: 24px;">
+                <span
+                    style="background: #F1F5F9; padding: 8px 16px; border-radius: 8px; font-size: 14px; color: var(--secondary);">Compatible
+                    with **Start-1 Grant**</span>
+            </div>
+        </header>
+
+        <!-- VALUE PROP GRID -->
+        <div class="card full-width" style="background: white; border: none; padding: 0; margin-top: 40px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div style="background: #FFF1F2; padding: 30px; border-radius: 16px; border: 1px solid #FECDD3;">
+                    <h2 style="color: #BE123C; display: flex; align-items: center; gap: 10px;">
+                        <span>🚫</span> The Pain
+                    </h2>
+                    <p style="font-size: 16px; color: #881337;">{{ problem }}</p>
+                </div>
+                <div style="background: #F0FDF4; padding: 30px; border-radius: 16px; border: 1px solid #BBF7D0;">
+                    <h2 style="color: #15803D; display: flex; align-items: center; gap: 10px;">
+                        <span>✅</span> The Solution
+                    </h2>
+                    <p style="font-size: 16px; color: #14532D;">{{ solution }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHARTS SECTION -->
+        <div class="market-section" style="margin-top: 40px;">
+            <div class="section-title">Market Opportunity</div>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="marketChart"></canvas>
+                </div>
+            </div>
+            <div style="margin-top: 16px; font-size: 14px; color: #64748B;">
+                We target a <strong>{{ som_val }} SOM</strong> within the {{ tam_val }} global market.
+            </div>
+        </div>
+
+        <div class="financials-section" style="margin-top: 40px;">
+            <div class="section-title">Competitive Radar</div>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="compChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- FINANCIAL DECODING -->
+        <div class="full-width" style="margin-top: 40px;">
+            <div class="section-title">Financial Logic (Decoded)</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 12px; color: #94A3B8; text-transform: uppercase;">Customer Acquisition</div>
+                    <div style="font-size: 24px; font-weight: 800; color: var(--secondary); margin: 8px 0;">{{
+                        metric_2_val }}</div>
+                    <div style="font-size: 12px; color: #64748B;">Cost to get 1 University</div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 12px; color: #94A3B8; text-transform: uppercase;">Lifetime Value (LTV)</div>
+                    <div style="font-size: 24px; font-weight: 800; color: var(--primary); margin: 8px 0;">{{
+                        metric_1_val }}</div>
+                    <div style="font-size: 12px; color: #64748B;">Revenue per contract</div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 12px; color: #94A3B8; text-transform: uppercase;">Efficiency</div>
+                    <div style="font-size: 24px; font-weight: 800; color: var(--accent); margin: 8px 0;">{{ metric_3_val
+                        }}</div>
+                    <div style="font-size: 12px; color: #64748B;">LTV:CAC Ratio</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RISKS -->
+        <div class="full-width" style="margin-top: 40px; margin-bottom: 40px;">
+            <div class="section-title">Risk Analysis</div>
+            <div class="card" style="background: white; border: 1px solid var(--border);">
+                <ul style="columns: 2; margin: 0; padding-left: 20px;">
+                    {% for risk in risks %}
+                    <li style="margin-bottom: 8px;">{{ risk }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- FOOTER / CTA -->
+        <div class="full-width"
+            style="text-align: center; background: var(--secondary); color: white; padding: 40px; border-radius: 16px;">
+            <h3 style="color: white; margin-top: 0;">Grant Request: {{ ask_amount }}</h3>
+            <p style="color: #94A3B8; margin-bottom: 20px;">{{ ask_purpose }}</p>
+            <div
+                style="display: inline-block; background: var(--primary); color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600;">
+                Download Full Business Plan
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        // MARKET CHART (Bar)
+        const ctxMarket = document.getElementById('marketChart').getContext('2d');
+        new Chart(ctxMarket, {
+            type: 'bar',
+            data: {
+                labels: ['SOM\n(Share)', 'SAM\n(Russia)', 'TAM\n(Global)'],
+                datasets: [{
+                    label: 'Market Size ($)',
+                    data: [{{ som_num }}, {{ sam_num }}, {{ tam_num }}],
+            backgroundColor: ['#2563EB', '#CBD5E1', '#E2E8F0'],
+            borderRadius: 6,
+            barPercentage: 0.6
+                }]
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { display: false, grid: { display: false } },
+                x: { grid: { display: false } }
+            }
+        }
+        });
+
+        // COMPETITION CHART (Radar)
+        const ctxComp = document.getElementById('compChart').getContext('2d');
+        new Chart(ctxComp, {
+            type: 'radar',
+            data: {
+                labels: ['Innovation', 'Price', 'Scalability', 'UX', 'Support'],
+                datasets: [{
+                    label: 'Virtual Pedagogue',
+                    data: [9, 9, 10, 8, 7],
+                    borderColor: '#2563EB',
+                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                    pointBackgroundColor: '#2563EB'
+                }, {
+                    label: 'Traditional Competitors',
+                    data: [4, 6, 5, 5, 8],
+                    borderColor: '#94A3B8',
+                    backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                    pointBackgroundColor: '#94A3B8'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        min: 0, max: 10,
+                        ticks: { display: false },
+                        pointLabels: { font: { size: 10, weight: 600 } }
+                    }
+                },
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }
+            }
+        });
+    </script>
+</body>
