@@ -118,77 +118,400 @@ export class MainMap extends Phaser.Scene {
     private _makeWizard() {
         if (this.textures.exists('wizard')) return;
         const g = this.make.graphics({});
-        g.fillStyle(0x6366f1); g.fillRoundedRect(8, 18, 28, 20, 6);
-        g.fillStyle(0xfde68a); g.fillCircle(22, 16, 10);
+        const S = 64;
+
+        // Shadow
+        g.fillStyle(0x000000, 0.3);
+        g.fillEllipse(S/2, S-4, S*0.5, 8);
+
+        // Robe bottom (flowing)
         g.fillStyle(0x4338ca);
-        g.fillTriangle(12, 16, 32, 16, 22, 0);
-        g.fillRect(10, 14, 24, 5);
-        g.fillStyle(0xa5b4fc); g.fillRect(10, 14, 24, 3);
-        g.fillStyle(0x1e1e2e); g.fillCircle(17, 15, 2); g.fillCircle(27, 15, 2);
-        g.fillStyle(0xc4b5fd); g.fillRect(36, 20, 4, 14);
-        g.fillStyle(0xfbbf24); g.fillCircle(38, 20, 4);
-        g.generateTexture('wizard', 46, 44);
+        g.fillTriangle(S*0.5, S*0.55, S*0.25, S*0.88, S*0.75, S*0.88);
+
+        // Robe body
+        g.fillStyle(0x6366f1);
+        g.fillRoundedRect(S*0.3, S*0.45, S*0.4, S*0.35, 6);
+
+        // Belt (gold)
+        g.fillStyle(0xfbbf24);
+        g.fillRect(S*0.32, S*0.6, S*0.36, 5);
+        g.fillCircle(S*0.5, S*0.625, 4);
+
+        // Arms/sleeves
+        g.fillStyle(0x4f46e5);
+        g.fillRoundedRect(S*0.22, S*0.5, S*0.12, S*0.25, 4);
+        g.fillRoundedRect(S*0.66, S*0.5, S*0.12, S*0.25, 4);
+
+        // Hands
+        g.fillStyle(0xfde68a);
+        g.fillCircle(S*0.28, S*0.73, 6);
+        g.fillCircle(S*0.72, S*0.73, 6);
+
+        // Magic staff (right hand)
+        g.lineStyle(5, 0x78350f);
+        g.lineBetween(S*0.75, S*0.7, S*0.82, S*0.35);
+
+        // Staff orb (glowing purple)
+        g.fillStyle(0xa855f7);
+        g.fillCircle(S*0.84, S*0.32, 10);
+        g.fillStyle(0xc084fc, 0.7);
+        g.fillCircle(S*0.84, S*0.32, 7);
+        g.fillStyle(0xe9d5ff, 0.5);
+        g.fillCircle(S*0.84, S*0.32, 4);
+
+        // Magic sparkles around orb
+        for (let i = 0; i < 4; i++) {
+            const angle = (i / 4) * Math.PI * 2 + Math.PI/4;
+            g.fillStyle(0xc084fc, 0.6);
+            g.fillCircle(S*0.84 + Math.cos(angle)*14, S*0.32 + Math.sin(angle)*14, 2);
+        }
+
+        // Neck
+        g.fillStyle(0xfde68a);
+        g.fillRect(S*0.44, S*0.38, S*0.12, S*0.08);
+
+        // Head
+        g.fillStyle(0xfde68a);
+        g.fillCircle(S*0.5, S*0.32, S*0.16);
+
+        // Wizard hat (tall and pointy)
+        g.fillStyle(0x4338ca);
+        g.fillTriangle(S*0.32, S*0.3, S*0.68, S*0.3, S*0.5, S*0.05);
+
+        // Hat brim
+        g.fillEllipse(S*0.5, S*0.3, S*0.25, S*0.06);
+
+        // Hat band (stars pattern)
+        g.fillStyle(0xa5b4fc);
+        g.fillRect(S*0.38, S*0.28, S*0.24, 4);
+
+        // Stars on hat
+        for (let i = 0; i < 3; i++) {
+            g.fillStyle(0xfbbf24, 0.8);
+            const x = S*0.42 + i*0.08*S;
+            const y = S*0.3 - i*0.05*S;
+            g.fillCircle(x, y, 2);
+        }
+
+        // Eyes (wise)
+        g.fillStyle(0xffffff);
+        g.fillCircle(S*0.42, S*0.3, 5);
+        g.fillCircle(S*0.58, S*0.3, 5);
+        g.fillStyle(0x4338ca);
+        g.fillCircle(S*0.42, S*0.3, 3);
+        g.fillCircle(S*0.58, S*0.3, 3);
+
+        // Eye shine
+        g.fillStyle(0xffffff);
+        g.fillCircle(S*0.43, S*0.29, 1.5);
+        g.fillCircle(S*0.59, S*0.29, 1.5);
+
+        // Beard (small, wise)
+        g.fillStyle(0xe2e8f0);
+        g.fillEllipse(S*0.5, S*0.4, S*0.16, S*0.08);
+
+        // Smile
+        g.lineStyle(2, 0x64748b);
+        g.beginPath();
+        g.arc(S*0.5, S*0.35, 6, 0, Math.PI);
+        g.strokePath();
+
+        // Robe details (arcane symbols)
+        g.lineStyle(1.5, 0x818cf8, 0.6);
+        g.strokeCircle(S*0.5, S*0.7, 6);
+        g.lineBetween(S*0.5, S*0.64, S*0.5, S*0.76);
+        g.lineBetween(S*0.44, S*0.7, S*0.56, S*0.7);
+
+        g.generateTexture('wizard', S, S);
         g.destroy();
     }
 
     private _makeEnemyGoblin() {
         if (this.textures.exists('enemy_goblin')) return;
         const g = this.make.graphics({});
-        g.fillStyle(0x22c55e);
-        g.fillCircle(20, 12, 11);
-        g.fillRoundedRect(6, 18, 28, 18, 5);
-        g.fillStyle(0xff4444); g.fillCircle(14, 11, 3); g.fillCircle(26, 11, 3);
-        g.fillStyle(0x000000); g.fillCircle(14, 11, 1.5); g.fillCircle(26, 11, 1.5);
+        const S = 64;
+
+        // Shadow
+        g.fillStyle(0x000000, 0.3);
+        g.fillEllipse(S/2, S-6, S*0.6, 8);
+
+        // Body (green armor)
         g.fillStyle(0x16a34a);
-        g.fillTriangle(7, 6, 2, 16, 12, 16);
-        g.fillTriangle(33, 6, 38, 16, 28, 16);
-        g.generateTexture('enemy_goblin', 40, 38);
+        g.fillRoundedRect(S*0.3, S*0.5, S*0.4, S*0.35, 4);
+
+        // Arms
+        g.fillStyle(0x22c55e);
+        g.fillRoundedRect(S*0.2, S*0.5, S*0.15, S*0.3, 3); // left arm
+        g.fillRoundedRect(S*0.65, S*0.5, S*0.15, S*0.3, 3); // right arm
+
+        // Head
+        g.fillStyle(0x22c55e);
+        g.fillCircle(S*0.5, S*0.35, S*0.18);
+
+        // Ears (pointy)
+        g.fillStyle(0x16a34a);
+        g.fillTriangle(S*0.25, S*0.3, S*0.15, S*0.35, S*0.3, S*0.4);
+        g.fillTriangle(S*0.75, S*0.3, S*0.85, S*0.35, S*0.7, S*0.4);
+
+        // Eyes (angry red)
+        g.fillStyle(0xffffff);
+        g.fillCircle(S*0.4, S*0.33, 5);
+        g.fillCircle(S*0.6, S*0.33, 5);
+        g.fillStyle(0xff0000);
+        g.fillCircle(S*0.4, S*0.33, 3);
+        g.fillCircle(S*0.6, S*0.33, 3);
+
+        // Angry eyebrows
+        g.lineStyle(2, 0x000000);
+        g.lineBetween(S*0.35, S*0.28, S*0.45, S*0.3);
+        g.lineBetween(S*0.65, S*0.28, S*0.55, S*0.3);
+
+        // Nose
+        g.fillStyle(0x16a34a);
+        g.fillCircle(S*0.5, S*0.4, 3);
+
+        // Mouth (fangs)
+        g.lineStyle(2, 0x000000);
+        g.beginPath();
+        g.arc(S*0.5, S*0.42, 6, 0, Math.PI);
+        g.strokePath();
+        g.fillStyle(0xffffff);
+        g.fillTriangle(S*0.45, S*0.45, S*0.47, S*0.5, S*0.43, S*0.5);
+        g.fillTriangle(S*0.55, S*0.45, S*0.53, S*0.5, S*0.57, S*0.5);
+
+        // Weapon (club in right hand)
+        g.fillStyle(0x78350f);
+        g.fillRoundedRect(S*0.75, S*0.55, 6, S*0.3, 3);
+        g.fillCircle(S*0.78, S*0.52, 7);
+
+        // Armor details (belt)
+        g.fillStyle(0x92400e);
+        g.fillRect(S*0.3, S*0.62, S*0.4, 4);
+        g.fillStyle(0xfbbf24);
+        g.fillCircle(S*0.5, S*0.64, 3);
+
+        // Feet
+        g.fillStyle(0x16a34a);
+        g.fillEllipse(S*0.38, S*0.88, S*0.12, S*0.08);
+        g.fillEllipse(S*0.62, S*0.88, S*0.12, S*0.08);
+
+        g.generateTexture('enemy_goblin', S, S);
         g.destroy();
     }
 
     private _makeEnemySlime() {
         if (this.textures.exists('enemy_slime')) return;
         const g = this.make.graphics({});
-        g.fillStyle(0xec4899);
-        g.fillEllipse(20, 24, 34, 24);
-        g.fillStyle(0xf472b6, 0.7);
-        g.fillEllipse(20, 16, 24, 20);
-        g.fillStyle(0xffffff); g.fillCircle(13, 16, 5); g.fillCircle(27, 16, 5);
-        g.fillStyle(0x881337); g.fillCircle(13, 16, 2.5); g.fillCircle(27, 16, 2.5);
-        g.generateTexture('enemy_slime', 40, 40);
+        const S = 64;
+
+        // Shadow
+        g.fillStyle(0x000000, 0.3);
+        g.fillEllipse(S/2, S-4, S*0.7, 10);
+
+        // Body base (darker pink)
+        g.fillStyle(0xdb2777);
+        g.fillEllipse(S*0.5, S*0.65, S*0.7, S*0.5);
+
+        // Body top layer (lighter, translucent)
+        g.fillStyle(0xec4899, 0.9);
+        g.fillEllipse(S*0.5, S*0.5, S*0.6, S*0.45);
+
+        // Shine/highlight layer
+        g.fillStyle(0xf9a8d4, 0.6);
+        g.fillEllipse(S*0.5, S*0.42, S*0.5, S*0.35);
+
+        // Glossy spots (multiple bubbles inside)
+        g.fillStyle(0xfce7f3, 0.5);
+        g.fillCircle(S*0.38, S*0.45, S*0.08);
+        g.fillCircle(S*0.58, S*0.52, S*0.06);
+        g.fillCircle(S*0.48, S*0.58, S*0.05);
+
+        // Eyes (big cute eyes)
+        g.fillStyle(0xffffff);
+        g.fillEllipse(S*0.38, S*0.45, 12, 14);
+        g.fillEllipse(S*0.62, S*0.45, 12, 14);
+
+        // Pupils
+        g.fillStyle(0x000000);
+        g.fillCircle(S*0.38, S*0.47, 6);
+        g.fillCircle(S*0.62, S*0.47, 6);
+
+        // Eye shine
+        g.fillStyle(0xffffff);
+        g.fillCircle(S*0.4, S*0.44, 3);
+        g.fillCircle(S*0.64, S*0.44, 3);
+
+        // Mouth (simple happy smile)
+        g.lineStyle(2, 0x9f1239);
+        g.beginPath();
+        g.arc(S*0.5, S*0.55, 8, 0, Math.PI);
+        g.strokePath();
+
+        // Surface shimmer
+        g.lineStyle(2, 0xfce7f3, 0.7);
+        g.beginPath();
+        g.arc(S*0.45, S*0.38, S*0.25, Math.PI * 1.2, Math.PI * 1.8);
+        g.strokePath();
+
+        g.generateTexture('enemy_slime', S, S);
         g.destroy();
     }
 
     private _makeEnemyTroll() {
         if (this.textures.exists('enemy_troll')) return;
         const g = this.make.graphics({});
+        const S = 64;
+
+        // Shadow
+        g.fillStyle(0x000000, 0.3);
+        g.fillEllipse(S/2, S-5, S*0.7, 10);
+
+        // Muscular body
+        g.fillStyle(0x7c3aed);
+        g.fillRoundedRect(S*0.25, S*0.5, S*0.5, S*0.4, 6);
+
+        // Arms (big muscles)
         g.fillStyle(0x8b5cf6);
-        g.fillRoundedRect(4, 12, 34, 24, 5);
-        g.fillCircle(21, 14, 13);
-        g.fillStyle(0xfbbf24); g.fillCircle(14, 13, 4); g.fillCircle(28, 13, 4);
-        g.fillStyle(0x000000); g.fillCircle(14, 13, 2); g.fillCircle(28, 13, 2);
+        g.fillEllipse(S*0.15, S*0.6, S*0.18, S*0.25);
+        g.fillEllipse(S*0.85, S*0.6, S*0.18, S*0.25);
+
+        // Legs
+        g.fillStyle(0x6d28d9);
+        g.fillRoundedRect(S*0.32, S*0.8, S*0.14, S*0.15, 3);
+        g.fillRoundedRect(S*0.54, S*0.8, S*0.14, S*0.15, 3);
+
+        // Big head
+        g.fillStyle(0x8b5cf6);
+        g.fillCircle(S*0.5, S*0.32, S*0.22);
+
+        // Horns (golden)
         g.fillStyle(0xd97706);
-        g.fillTriangle(12, 4, 8, -4, 17, 2);
-        g.fillTriangle(30, 4, 34, -4, 25, 2);
-        g.generateTexture('enemy_troll', 42, 40);
+        g.fillTriangle(S*0.3, S*0.22, S*0.22, S*0.08, S*0.35, S*0.15);
+        g.fillTriangle(S*0.7, S*0.22, S*0.78, S*0.08, S*0.65, S*0.15);
+
+        // Horn shine
+        g.fillStyle(0xfbbf24, 0.6);
+        g.fillCircle(S*0.26, S*0.14, 3);
+        g.fillCircle(S*0.74, S*0.14, 3);
+
+        // Eyes (glowing yellow)
+        g.fillStyle(0xfbbf24);
+        g.fillCircle(S*0.42, S*0.3, 7);
+        g.fillCircle(S*0.58, S*0.3, 7);
+        g.fillStyle(0x000000);
+        g.fillCircle(S*0.42, S*0.3, 4);
+        g.fillCircle(S*0.58, S*0.3, 4);
+
+        // Angry eyebrows
+        g.lineStyle(3, 0x4c1d95);
+        g.lineBetween(S*0.35, S*0.22, S*0.47, S*0.26);
+        g.lineBetween(S*0.65, S*0.22, S*0.53, S*0.26);
+
+        // Large nose
+        g.fillStyle(0x6d28d9);
+        g.fillTriangle(S*0.5, S*0.35, S*0.45, S*0.42, S*0.55, S*0.42);
+
+        // Tusks
+        g.fillStyle(0xffffff);
+        g.fillTriangle(S*0.42, S*0.45, S*0.38, S*0.52, S*0.4, S*0.45);
+        g.fillTriangle(S*0.58, S*0.45, S*0.62, S*0.52, S*0.6, S*0.45);
+
+        // Muscle definition (lines)
+        g.lineStyle(2, 0x6d28d9, 0.5);
+        g.lineBetween(S*0.3, S*0.6, S*0.32, S*0.75);
+        g.lineBetween(S*0.7, S*0.6, S*0.68, S*0.75);
+
+        // Belt/loincloth
+        g.fillStyle(0x92400e);
+        g.fillRect(S*0.28, S*0.7, S*0.44, 6);
+        g.fillStyle(0x78350f);
+        g.fillRect(S*0.35, S*0.76, S*0.12, S*0.12);
+        g.fillRect(S*0.53, S*0.76, S*0.12, S*0.12);
+
+        g.generateTexture('enemy_troll', S, S);
         g.destroy();
     }
 
     private _makeEnemyWitch() {
         if (this.textures.exists('enemy_witch')) return;
         const g = this.make.graphics({});
-        g.fillStyle(0xf59e0b);
-        g.fillRoundedRect(8, 16, 26, 20, 5);
-        g.fillStyle(0xfde68a); g.fillCircle(21, 14, 10);
-        g.fillStyle(0x1e1e2e);
-        g.fillTriangle(11, 14, 31, 14, 21, 0);
-        g.fillRect(8, 12, 26, 4);
-        g.fillStyle(0xfbbf24); g.fillRect(8, 12, 26, 3);
-        g.fillStyle(0x78350f); g.fillCircle(16, 13, 3); g.fillCircle(26, 13, 3);
+        const S = 64;
+
+        // Shadow
+        g.fillStyle(0x000000, 0.3);
+        g.fillEllipse(S/2, S-5, S*0.6, 10);
+
+        // Dress/robe (dark purple)
+        g.fillStyle(0x6b21a8);
+        g.fillTriangle(S*0.5, S*0.55, S*0.2, S*0.9, S*0.8, S*0.9);
+
+        // Body
+        g.fillStyle(0x7c3aed);
+        g.fillRoundedRect(S*0.35, S*0.48, S*0.3, S*0.25, 5);
+
+        // Arms with sleeves
+        g.fillStyle(0x6b21a8);
+        g.fillTriangle(S*0.35, S*0.5, S*0.18, S*0.55, S*0.3, S*0.7);
+        g.fillTriangle(S*0.65, S*0.5, S*0.82, S*0.55, S*0.7, S*0.7);
+
+        // Hands (green skin)
+        g.fillStyle(0x84cc16);
+        g.fillCircle(S*0.25, S*0.65, 7);
+        g.fillCircle(S*0.75, S*0.65, 7);
+
+        // Magic staff (in left hand)
+        g.lineStyle(4, 0x78350f);
+        g.lineBetween(S*0.2, S*0.6, S*0.12, S*0.9);
+        // Staff orb (purple glow)
+        g.fillStyle(0xa855f7);
+        g.fillCircle(S*0.15, S*0.52, 8);
+        g.fillStyle(0xc084fc, 0.6);
+        g.fillCircle(S*0.15, S*0.52, 5);
+
+        // Head (green witch skin)
+        g.fillStyle(0x84cc16);
+        g.fillCircle(S*0.5, S*0.38, S*0.16);
+
+        // Witch hat (pointy, black)
+        g.fillStyle(0x1e1b4b);
+        g.fillTriangle(S*0.32, S*0.35, S*0.68, S*0.35, S*0.5, S*0.08);
+        g.fillEllipse(S*0.5, S*0.35, S*0.25, S*0.06);
+
+        // Hat band (gold)
         g.fillStyle(0xfbbf24);
-        g.fillTriangle(21, 22, 24, 26, 18, 26);
-        g.fillTriangle(21, 30, 24, 26, 18, 26);
-        g.generateTexture('enemy_witch', 40, 40);
+        g.fillRect(S*0.38, S*0.33, S*0.24, 4);
+
+        // Crooked nose
+        g.fillStyle(0x65a30d);
+        g.fillTriangle(S*0.5, S*0.38, S*0.54, S*0.45, S*0.48, S*0.42);
+
+        // Eyes (glowing yellow)
+        g.fillStyle(0xfbbf24);
+        g.fillCircle(S*0.43, S*0.36, 5);
+        g.fillCircle(S*0.57, S*0.36, 5);
+        g.fillStyle(0x000000);
+        g.fillCircle(S*0.43, S*0.36, 2);
+        g.fillCircle(S*0.57, S*0.36, 2);
+
+        // Evil smile
+        g.lineStyle(2, 0x000000);
+        g.beginPath();
+        g.arc(S*0.5, S*0.42, 6, 0, Math.PI);
+        g.strokePath();
+
+        // Magic particles around staff
+        for (let i = 0; i < 3; i++) {
+            g.fillStyle(0xa855f7, 0.4 + i*0.2);
+            g.fillCircle(S*0.1 + i*4, S*0.48 - i*6, 3 - i);
+        }
+
+        // Book in right hand (spell book)
+        g.fillStyle(0x92400e);
+        g.fillRoundedRect(S*0.7, S*0.6, S*0.12, S*0.15, 2);
+        g.fillStyle(0xfbbf24);
+        g.fillRect(S*0.71, S*0.65, S*0.1, 2);
+
+        g.generateTexture('enemy_witch', S, S);
         g.destroy();
     }
 
@@ -252,26 +575,94 @@ export class MainMap extends Phaser.Scene {
     private _makeEnemyDragon() {
         if (this.textures.exists('enemy_dragon')) return;
         const g = this.make.graphics({});
-        // Body
-        g.fillStyle(0xdc2626); g.fillRoundedRect(6, 14, 32, 20, 6);
-        // Head
-        g.fillStyle(0xef4444); g.fillCircle(36, 16, 12);
-        // Snout
-        g.fillStyle(0xb91c1c); g.fillEllipse(44, 18, 10, 6);
-        // Eyes
-        g.fillStyle(0xfbbf24); g.fillCircle(32, 12, 4);
-        g.fillStyle(0x000000); g.fillCircle(32, 12, 2);
-        // Wings
-        g.fillStyle(0x991b1b);
-        g.fillTriangle(0, 16, 10, 4, 14, 20);
-        g.fillTriangle(2, 22, 10, 34, 14, 20);
+        const S = 80;
+
+        // Shadow
+        g.fillStyle(0x000000, 0.3);
+        g.fillEllipse(S*0.5, S*0.92, S*0.7, 12);
+
         // Tail
+        g.fillStyle(0xb91c1c);
+        g.fillTriangle(S*0.08, S*0.55, S*0.02, S*0.7, S*0.15, S*0.6);
+        g.fillTriangle(S*0.05, S*0.68, S*0.02, S*0.78, S*0.12, S*0.72);
+
+        // Back leg
         g.fillStyle(0xdc2626);
-        g.fillTriangle(2, 24, 2, 30, 8, 26);
-        // Fire
-        g.fillStyle(0xf97316, 0.9); g.fillEllipse(50, 18, 10, 6);
-        g.fillStyle(0xfbbf24, 0.7); g.fillEllipse(54, 18, 6, 4);
-        g.generateTexture('enemy_dragon', 60, 42);
+        g.fillRoundedRect(S*0.25, S*0.7, S*0.12, S*0.2, 4);
+
+        // Body (scales)
+        g.fillStyle(0xdc2626);
+        g.fillEllipse(S*0.4, S*0.55, S*0.35, S*0.25);
+
+        // Scales pattern
+        g.lineStyle(2, 0x991b1b, 0.5);
+        for (let i = 0; i < 4; i++) {
+            g.beginPath();
+            g.arc(S*0.3 + i*0.08*S, S*0.52, 8, 0, Math.PI);
+            g.strokePath();
+        }
+
+        // Wings (large, detailed)
+        g.fillStyle(0x7f1d1d);
+        // Left wing
+        g.fillTriangle(S*0.2, S*0.45, S*0.05, S*0.2, S*0.25, S*0.35);
+        g.fillTriangle(S*0.22, S*0.5, S*0.08, S*0.65, S*0.28, S*0.55);
+        // Wing membrane (lighter)
+        g.fillStyle(0xb91c1c, 0.6);
+        g.fillTriangle(S*0.18, S*0.42, S*0.1, S*0.3, S*0.22, S*0.38);
+
+        // Right wing
+        g.fillStyle(0x7f1d1d);
+        g.fillTriangle(S*0.55, S*0.4, S*0.7, S*0.15, S*0.5, S*0.35);
+        g.fillTriangle(S*0.53, S*0.5, S*0.68, S*0.6, S*0.48, S*0.55);
+
+        // Front leg
+        g.fillStyle(0xdc2626);
+        g.fillRoundedRect(S*0.5, S*0.7, S*0.12, S*0.2, 4);
+
+        // Claws (gold)
+        g.fillStyle(0xfbbf24);
+        for (let i = 0; i < 3; i++) {
+            g.fillTriangle(S*0.27 + i*0.03*S, S*0.88, S*0.28 + i*0.03*S, S*0.92, S*0.26 + i*0.03*S, S*0.92);
+            g.fillTriangle(S*0.52 + i*0.03*S, S*0.88, S*0.53 + i*0.03*S, S*0.92, S*0.51 + i*0.03*S, S*0.92);
+        }
+
+        // Head
+        g.fillStyle(0xef4444);
+        g.fillCircle(S*0.65, S*0.38, S*0.15);
+
+        // Snout/jaw
+        g.fillStyle(0xb91c1c);
+        g.fillEllipse(S*0.75, S*0.42, S*0.15, S*0.1);
+
+        // Horns
+        g.fillStyle(0xfbbf24);
+        g.fillTriangle(S*0.58, S*0.28, S*0.54, S*0.15, S*0.62, S*0.25);
+        g.fillTriangle(S*0.68, S*0.26, S*0.7, S*0.13, S*0.64, S*0.28);
+
+        // Eye (glowing)
+        g.fillStyle(0xfbbf24);
+        g.fillCircle(S*0.62, S*0.35, 6);
+        g.fillStyle(0x000000);
+        g.fillCircle(S*0.62, S*0.35, 3);
+        g.fillStyle(0xfbbf24, 0.4);
+        g.fillCircle(S*0.62, S*0.35, 9);
+
+        // Teeth
+        g.fillStyle(0xffffff);
+        for (let i = 0; i < 4; i++) {
+            g.fillTriangle(S*0.68 + i*0.03*S, S*0.4, S*0.69 + i*0.03*S, S*0.45, S*0.67 + i*0.03*S, S*0.45);
+        }
+
+        // Fire breath
+        g.fillStyle(0xf97316, 0.8);
+        g.fillEllipse(S*0.88, S*0.42, S*0.18, S*0.12);
+        g.fillStyle(0xfbbf24, 0.7);
+        g.fillEllipse(S*0.92, S*0.42, S*0.12, S*0.08);
+        g.fillStyle(0xfef3c7, 0.5);
+        g.fillEllipse(S*0.95, S*0.42, S*0.08, S*0.05);
+
+        g.generateTexture('enemy_dragon', S, S);
         g.destroy();
     }
 
@@ -279,29 +670,109 @@ export class MainMap extends Phaser.Scene {
     private _makeEnemyPhoenix() {
         if (this.textures.exists('enemy_phoenix')) return;
         const g = this.make.graphics({});
-        // Body
-        g.fillStyle(0xf97316); g.fillEllipse(22, 24, 28, 22);
-        // Flame tail
-        g.fillStyle(0xef4444, 0.8);
-        g.fillTriangle(0, 20, 14, 28, 0, 36);
-        g.fillStyle(0xfbbf24, 0.7);
-        g.fillTriangle(4, 22, 14, 28, 2, 32);
-        // Wings
-        g.fillStyle(0xf59e0b);
-        g.fillTriangle(8, 10, 22, 18, 16, 4);
-        g.fillTriangle(36, 10, 22, 18, 28, 4);
+        const S = 80;
+
+        // Glow aura (outer)
+        g.fillStyle(0xfbbf24, 0.2);
+        g.fillCircle(S*0.5, S*0.5, S*0.45);
+        g.fillStyle(0xf97316, 0.3);
+        g.fillCircle(S*0.5, S*0.5, S*0.35);
+
+        // Flame tail (layered)
+        g.fillStyle(0xef4444, 0.7);
+        g.fillTriangle(S*0.05, S*0.4, S*0.25, S*0.55, S*0.08, S*0.7);
+        g.fillTriangle(S*0.02, S*0.5, S*0.2, S*0.6, S*0.05, S*0.8);
+
+        g.fillStyle(0xf97316, 0.8);
+        g.fillTriangle(S*0.1, S*0.45, S*0.25, S*0.55, S*0.12, S*0.68);
+
+        g.fillStyle(0xfbbf24, 0.6);
+        g.fillTriangle(S*0.15, S*0.5, S*0.25, S*0.58, S*0.18, S*0.65);
+
+        // Body (orange-red)
+        g.fillStyle(0xf97316);
+        g.fillEllipse(S*0.45, S*0.55, S*0.28, S*0.22);
+
+        // Body flame pattern
+        g.fillStyle(0xfbbf24, 0.4);
+        g.fillEllipse(S*0.42, S*0.5, S*0.2, S*0.15);
+
+        // Wings (flame wings - left)
+        g.fillStyle(0xef4444, 0.7);
+        g.fillTriangle(S*0.2, S*0.35, S*0.35, S*0.5, S*0.25, S*0.25);
+        g.fillTriangle(S*0.22, S*0.45, S*0.35, S*0.55, S*0.28, S*0.35);
+
+        g.fillStyle(0xf97316, 0.8);
+        g.fillTriangle(S*0.25, S*0.38, S*0.35, S*0.5, S*0.28, S*0.28);
+
+        g.fillStyle(0xfbbf24, 0.6);
+        g.fillTriangle(S*0.28, S*0.4, S*0.35, S*0.5, S*0.3, S*0.32);
+
+        // Wings (flame wings - right)
+        g.fillStyle(0xef4444, 0.7);
+        g.fillTriangle(S*0.72, S*0.35, S*0.57, S*0.5, S*0.67, S*0.25);
+        g.fillTriangle(S*0.7, S*0.45, S*0.57, S*0.55, S*0.64, S*0.35);
+
+        g.fillStyle(0xf97316, 0.8);
+        g.fillTriangle(S*0.67, S*0.38, S*0.57, S*0.5, S*0.64, S*0.28);
+
+        g.fillStyle(0xfbbf24, 0.6);
+        g.fillTriangle(S*0.64, S*0.4, S*0.57, S*0.5, S*0.62, S*0.32);
+
+        // Neck
+        g.fillStyle(0xf97316);
+        g.fillEllipse(S*0.58, S*0.4, S*0.12, S*0.15);
+
         // Head
-        g.fillStyle(0xfde68a); g.fillCircle(30, 12, 9);
+        g.fillStyle(0xfbbf24);
+        g.fillCircle(S*0.65, S*0.3, S*0.14);
+
+        // Crown feathers (flame-like)
+        g.fillStyle(0xef4444, 0.8);
+        g.fillTriangle(S*0.58, S*0.2, S*0.6, S*0.1, S*0.62, S*0.2);
+        g.fillTriangle(S*0.64, S*0.18, S*0.65, S*0.08, S*0.66, S*0.18);
+        g.fillTriangle(S*0.7, S*0.2, S*0.7, S*0.1, S*0.68, S*0.2);
+
+        g.fillStyle(0xfbbf24);
+        g.fillTriangle(S*0.62, S*0.2, S*0.63, S*0.12, S*0.64, S*0.2);
+
         // Beak
-        g.fillStyle(0xfbbf24); g.fillTriangle(36, 11, 44, 13, 36, 15);
-        // Eye
-        g.fillStyle(0xef4444); g.fillCircle(27, 11, 3);
-        g.fillStyle(0x000000); g.fillCircle(27, 11, 1.5);
-        // Glow
-        g.fillStyle(0xfbbf24, 0.3); g.fillCircle(22, 20, 18);
-        g.generateTexture('enemy_phoenix', 46, 42);
+        g.fillStyle(0xf97316);
+        g.fillTriangle(S*0.74, S*0.28, S*0.82, S*0.3, S*0.74, S*0.32);
+
+        // Eye (glowing red)
+        g.fillStyle(0xef4444);
+        g.fillCircle(S*0.68, S*0.28, 5);
+        g.fillStyle(0xfbbf24);
+        g.fillCircle(S*0.68, S*0.28, 3);
+        g.fillStyle(0xffffff);
+        g.fillCircle(S*0.69, S*0.27, 2);
+
+        // Legs/talons
+        g.lineStyle(3, 0x92400e);
+        g.lineBetween(S*0.42, S*0.65, S*0.38, S*0.75);
+        g.lineBetween(S*0.48, S*0.65, S*0.48, S*0.75);
+
+        // Talons (claws)
+        g.lineStyle(2, 0x78350f);
+        g.lineBetween(S*0.38, S*0.75, S*0.35, S*0.78);
+        g.lineBetween(S*0.38, S*0.75, S*0.38, S*0.78);
+        g.lineBetween(S*0.38, S*0.75, S*0.41, S*0.78);
+
+        // Flame particles around
+        for (let i = 0; i < 5; i++) {
+            const angle = (i / 5) * Math.PI * 2;
+            const dist = S*0.4;
+            const x = S*0.5 + Math.cos(angle) * dist;
+            const y = S*0.5 + Math.sin(angle) * dist;
+            g.fillStyle(0xfbbf24, 0.3 + Math.random()*0.3);
+            g.fillCircle(x, y, 3 + Math.random()*3);
+        }
+
+        g.generateTexture('enemy_phoenix', S, S);
         g.destroy();
     }
+
     private _makeNPCWordkeeper() {
         if (this.textures.exists('npc_wordkeeper')) return;
         const g = this.make.graphics({});
