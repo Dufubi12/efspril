@@ -22,8 +22,8 @@ const DIAGNOSTIC_QUESTIONS: DiagQ[] = [
     { id: 'm5', subject: 'math', text: 'x + 15 = 34. Найди x', options: ['17', '18', '19', '20'], correct: '19', level: 4 },
     // Russian – escalating difficulty
     { id: 'r1', subject: 'russian', text: 'Как правильно?', options: ['собака', 'сабака', 'субака', 'собока'], correct: 'собака', level: 1 },
-    { id: 'r2', subject: 'russian', text: 'Жираф или жыраф?', options: ['жираф', 'жыраф'], correct: 'жираф', level: 2 },
-    { id: 'r3', subject: 'russian', text: 'Мышь или мыш?', options: ['мышь', 'мыш', 'мышт', 'мышь'], correct: 'мышь', level: 3 },
+    { id: 'r2', subject: 'russian', text: 'Жираф или жыраф?', options: ['жираф', 'жыраф', 'жераф', 'жираф'], correct: 'жираф', level: 2 },
+    { id: 'r3', subject: 'russian', text: 'Как правильно: мышь или мыш?', options: ['мышь', 'мыш', 'мышт', 'мыш'], correct: 'мышь', level: 3 },
     { id: 'r4', subject: 'russian', text: 'Расписание или разписание?', options: ['расписание', 'разписание', 'роcписание', 'расписанние'], correct: 'расписание', level: 4 },
     { id: 'r5', subject: 'russian', text: 'Синоним слова «большой»:', options: ['огромный', 'маленький', 'быстрый', 'грустный'], correct: 'огромный', level: 5 },
 ];
